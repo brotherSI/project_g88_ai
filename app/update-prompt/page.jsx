@@ -1,11 +1,10 @@
 "use client";
 
-
 import { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Form from "@components/Form";
 
- const Loading = () => <div>Loading...</div>;
+const Loading = () => <div>Loading...</div>;
 
 const UpdatePrompt = () => {
   const router = useRouter();
@@ -14,20 +13,27 @@ const UpdatePrompt = () => {
 
   const [post, setPost] = useState({ prompt: "", tag: "" });
   const [submitting, setIsSubmitting] = useState(false);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   useEffect(() => {
     const getPromptDetails = async () => {
-      const response = await fetch(`/api/prompt/${promptId}`);
-      const data = await response.json();
- 
-      setPost({
-        prompt: data.prompt,
-        tag: data.tag,
-      });
+      if (promptId) {
+        const response = await fetch(`/api/prompt/${promptId}`);
+        const data = await response.json();
+
+        setPost({
+          prompt: data.prompt,
+          tag: data.tag,
+        });
+      }
     };
 
-    if (promptId) getPromptDetails();
-  }, [promptId]);
+    if (isClient && promptId) getPromptDetails();
+  }, [isClient, promptId]);
 
   const updatePrompt = async (e) => {
     e.preventDefault();
@@ -54,23 +60,25 @@ const UpdatePrompt = () => {
     }
   };
 
+  if (!isClient) {
+    return <Loading />;
+  }
+
   return (
-    
-      <Form
-        type='Edit'
-        post={post}
-        setPost={setPost}
-        submitting={submitting}
-        handleSubmit={updatePrompt}
-      />
-    
+    <Form
+      type='Edit'
+      post={post}
+      setPost={setPost}
+      submitting={submitting}
+      handleSubmit={updatePrompt}
+    />
   );
 };
 
- const UpdatePromptWrapper = () =>(
+const UpdatePromptWrapper = () => (
   <Suspense fallback={<Loading />}>
     <UpdatePrompt />
   </Suspense>
- );
+);
 
 export default UpdatePrompt;
