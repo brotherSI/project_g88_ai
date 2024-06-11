@@ -1,9 +1,11 @@
 "use client";
 
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Form from "@components/Form";
+
+ const Loading = () => <div>Loading...</div>;
 
 const UpdatePrompt = () => {
   const router = useRouter();
@@ -64,5 +66,11 @@ const UpdatePrompt = () => {
     
   );
 };
+
+ const UpdatePromptWrapper = () =>(
+  <Suspense fallback={<Loading />}>
+    <UpdatePrompt />
+  </Suspense>
+ );
 
 export default UpdatePrompt;
