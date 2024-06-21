@@ -6,7 +6,7 @@ import Provider from '@components/Provider';
 export const metadata = {
 
     title: "G88-G AI Promps", 
-    description: "Learn and Share AI Prompts"
+    description: "Learn and Share AI Prompts with G88-G"
 }
 
 const RootLayout = ({children}) => {

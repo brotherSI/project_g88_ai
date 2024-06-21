@@ -12,7 +12,7 @@ const Home = () => {
         </h1>
        <p className= " text-center text-slate-200 mt-5 text-lg sm:text-xl max-w-2xl">
            G88-G is a an open source AI prompting tool for morden world to discover, 
-           create and share creative prompts 
+           create and share creative prompts
        </p>
            <Feed/>
     </section>
